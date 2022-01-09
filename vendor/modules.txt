@@ -1,0 +1,5 @@
+# github.com/golang/glog v0.0.0-20210429001901-424d2337a529
+## explicit
+github.com/golang/glog
+# github.com/stretchr/testify v1.7.0
+## explicit; go 1.13
