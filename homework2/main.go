@@ -36,7 +36,7 @@ func myHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Add("VERSION", os.Getenv("VERSION"))
 
-	glog.V(2).Info(r.RemoteAddr, "连接成功")
+	glog.V(2).Info(r.RemoteAddr, "连接成功, status code:", http.StatusOK)
 
 }
 
