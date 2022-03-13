@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: httpServer-cm
+data:
+  log_level: 4
+  log_path: /opt/appl/log

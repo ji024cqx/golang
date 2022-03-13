@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: httpServer
+  name: httpServer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: httpServer
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "18023"
+      labels:
+        app: httpServer
+    spec:
+      containers:
+        - name: httpServer
+          image: 192.168.8.248/ji024cqx/httpServer:v1.0-metrics
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 18023
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 18023
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: 3
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /opt/appl/conf
+              name: httpServer-cmv
+      volumes:
+        - name: httpServer-cmv
+          configMap:
+            name: httpServer-cm
+      terminationGracePeriodSeconds: 30
